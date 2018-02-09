@@ -10,6 +10,17 @@ AllCops:
     - 'config/*'
     - 'frontend/node_modules/**/*'
     - lib/schema_revamp.rb
+    - app/controllers/api/v2/**/*
+    - app/models/**/* # hard to exclude only old models because they're not namespaced
+    - app/serializers/**/** # hard to exclude only old serializers because they're not namespaced
+    - spec/controllers/api/v2/**/*
+  Include:
+    - app/models/api/v3/**/*
+    - app/models/content/**/*
+    - app/models/concerns/**/*
+    - app/serializers/api/v3/**/*
+    - app/serializers/content/**/*
+
 
 Bundler/OrderedGems:
   Enabled: false
