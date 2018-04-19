@@ -77,9 +77,12 @@
     }
 
     circle {
-      display: none;
       fill: $egg-shell;
       stroke-width: 3px;
+    }
+
+    circle:not(:only-of-type) {
+      display: none;
     }
 
     text {

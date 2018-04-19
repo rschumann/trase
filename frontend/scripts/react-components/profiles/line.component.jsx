@@ -172,6 +172,7 @@ class Line extends Component {
             .append('path')
             .attr('d', line);
 
+          // small chart has line legend underneath
           if (!isSmallChart) {
             pathContainers
               .selectAll('text')
