@@ -20,6 +20,10 @@ body {
     display: flex;
   }
 
+  .c-spinner {
+    position: absolute;
+  }
+
   > .flow-content {
     position: absolute;
     top: $nav-height;
