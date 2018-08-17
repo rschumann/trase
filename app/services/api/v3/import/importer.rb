@@ -150,6 +150,7 @@ module Api
         def refresh_mviews
           [
             Api::V3::Readonly::Attribute,
+            Api::V3::Readonly::ChartAttribute,
             Api::V3::Readonly::DownloadAttribute,
             Api::V3::Readonly::MapAttribute,
             Api::V3::Readonly::RecolorByAttribute,
