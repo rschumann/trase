@@ -25,86 +25,14 @@ module Api
 
         def call
           [
-            environmental_indicators,
-            socioeconomic_indicators,
-            agricultural_indicators,
-            territorial_governance_indicators
-          ]
-        end
-
-        def environmental_indicators
-          indicators_list = [
-            # Territorial deforestation
-            {attribute_type: 'quant', attribute_name: 'DEFORESTATION_V2'},
-            # Maximum soy deforestation
-            {
-              attribute_type: 'quant',
-              attribute_name: 'POTENTIAL_SOY_DEFORESTATION_V2'
-            },
-            # Soy deforestation (Cerrado only)
-            {
-              attribute_type: 'quant',
-              attribute_name: 'AGROSATELITE_SOY_DEFOR_'
-            },
-            # Land based CO2 emissions
-            {attribute_type: 'quant', attribute_name: 'GHG_'},
-            # Water scarcity
-            {attribute_type: 'ind', attribute_name: 'WATER_SCARCITY'},
-            # Loss of biodiversity habitat
-            {attribute_type: 'quant', attribute_name: 'BIODIVERSITY'}
-            # Number of incidences of fire, temporarily disabled
-            # {attribute_type: 'quant', attribute_name: 'FIRES_'}
-          ]
-
-          indicators_group(indicators_list, 'Environmental indicators')
-        end
-
-        def socioeconomic_indicators
-          indicators_list = [
-            # Human development index
-            {attribute_type: 'ind', attribute_name: 'HDI'},
-            # GDP per capita
-            {attribute_type: 'ind', attribute_name: 'GDP_CAP'},
-            # GDP from agriculture
-            {attribute_type: 'ind', attribute_name: 'PERC_FARM_GDP_'},
-            # Smallholder dominance
-            {attribute_type: 'ind', attribute_name: 'SMALLHOLDERS'},
-            # Reported cases of forced labour
-            {attribute_type: 'quant', attribute_name: 'SLAVERY'},
-            # Reported cases of land conflicts
-            {attribute_type: 'quant', attribute_name: 'LAND_CONFL'},
-            {attribute_type: 'quant', attribute_name: 'POPULATION'}
-          ]
-
-          indicators_group(indicators_list, 'Socio-economic indicators')
-        end
-
-        def agricultural_indicators
-          indicators_list = [
-            # Production of soy
-            {attribute_type: 'quant', attribute_name: 'SOY_TN'},
-            # Soy yield
-            {attribute_type: 'ind', attribute_name: 'SOY_YIELD'},
-            # Agricultural land used for soy
-            {attribute_type: 'ind', attribute_name: 'SOY_AREAPERC'}
-          ]
-
-          indicators_group(indicators_list, 'Agricultural indicators')
-        end
-
-        def territorial_governance_indicators
-          indicators_list = [
-            # Permanent protected area deficit
-            {attribute_type: 'quant', attribute_name: 'APP_DEFICIT_AREA'},
-            # Legal reserve deficit
-            {attribute_type: 'quant', attribute_name: 'LR_DEFICIT_AREA'},
-            # Forest code deficit
-            {attribute_type: 'ind', attribute_name: 'PROTECTED_DEFICIT_PERC'},
-            # Number of environmental embargos
-            {attribute_type: 'quant', attribute_name: 'EMBARGOES_'}
-          ]
-
-          indicators_group(indicators_list, 'Territorial governance')
+            :environmental_indicators,
+            :socioeconomic_indicators,
+            :agricultural_indicators,
+            :territorial_governance
+          ].map do |identifier|
+            chart = initialize_chart(:place, identifier)
+            indicators_group(chart.attributes_list, chart.title)
+          end
         end
 
         def indicators_group(attributes_list, name)
