@@ -13,7 +13,8 @@ module Api
           @year = year
           @volume_attribute = Dictionary::Quant.instance.get('Volume')
           raise 'Quant Volume not found' unless @volume_attribute.present?
-          initialize_attributes(attributes_list)
+          @chart = initialize_chart(:actor, :sustainability)
+          initialize_attributes(@chart.attributes_list)
           initialize_flow_stats_for_node
         end
 
@@ -70,7 +71,7 @@ module Api
                   @attributes.map do |attribute_hash|
                     attribute = attribute_hash[:attribute]
                     {
-                      name: attribute_hash[:name] || attribute.display_name,
+                      name: attribute_hash[:display_name] || attribute.display_name,
                       unit: attribute.unit,
                       tooltip: attribute[:tooltip_text]
                     }
@@ -126,24 +127,6 @@ module Api
               {value: attribute_total} if attribute_total
             end
           }
-        end
-
-        def attributes_list
-          [
-            {
-              attribute_type: 'quant',
-              attribute_name: 'DEFORESTATION_V2'
-            },
-            {
-              attribute_type: 'quant',
-              attribute_name: 'POTENTIAL_SOY_DEFORESTATION_V2'
-            },
-            {
-              name: 'Soy deforestation',
-              attribute_type: 'quant',
-              attribute_name: 'AGROSATELITE_SOY_DEFOR_'
-            }
-          ]
         end
       end
     end
