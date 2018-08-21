@@ -13,7 +13,8 @@ module Api
           @year = year
           @volume_attribute = Dictionary::Quant.instance.get('Volume')
           raise 'Quant Volume not found' unless @volume_attribute.present?
-          initialize_attributes(attributes_list)
+          @chart = initialize_chart(:actor, :companies_sourcing)
+          initialize_attributes(@chart.attributes_list)
         end
 
         def call
@@ -80,46 +81,6 @@ module Api
             end
           end
           attribute_totals_hash
-        end
-
-        def attributes_list
-          [
-            {
-              name: 'Land use',
-              unit: 'ha',
-              attribute_type: 'quant',
-              attribute_name: 'LAND_USE'
-            },
-            {
-              name: 'Territorial Deforestation',
-              unit: 'ha',
-              attribute_type: 'quant',
-              attribute_name: 'DEFORESTATION_V2'
-            },
-            {
-              name: 'Maximum soy deforestation',
-              unit: 'ha',
-              attribute_type: 'quant',
-              attribute_name: 'POTENTIAL_SOY_DEFORESTATION_V2'
-            },
-            {
-              name: 'Soy related deforestation',
-              unit: 'ha',
-              attribute_type: 'quant',
-              attribute_name: 'AGROSATELITE_SOY_DEFOR_'
-            },
-            {
-              name: 'Loss of biodiversity',
-              attribute_type: 'quant',
-              attribute_name: 'BIODIVERSITY'
-            },
-            {
-              name: 'Land-based emissions',
-              unit: 't',
-              attribute_type: 'quant',
-              attribute_name: 'GHG_'
-            }
-          ]
         end
       end
     end
