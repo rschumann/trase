@@ -31,17 +31,16 @@ module Api
             :territorial_governance
           ].map do |identifier|
             chart = initialize_chart(:place, identifier)
-            indicators_group(chart.attributes_list, chart.title)
+            indicators_group(chart)
           end
         end
 
-        def indicators_group(attributes_list, name)
+        def indicators_group(chart)
           # fetch frontend names and units
-          attributes = initialize_attributes(attributes_list)
+          chart_attributes, attributes = initialize_attributes(chart)
           values = []
           ranking_scores = []
-          attributes.each do |attribute_hash|
-            attribute = attribute_hash[:attribute]
+          attributes.each do |attribute|
             attribute_values =
               if attribute.is_a? Api::V3::Quant
                 @place_quants
@@ -49,7 +48,7 @@ module Api
                 @place_inds
               end
             attribute_value = attribute_values&.get(
-              attribute_hash[:attribute_name]
+              attribute.name
             )
             value = attribute_value['value'] if attribute_value
             values << value
@@ -58,16 +57,15 @@ module Api
               attribute
             )
           end
-          included_columns = attributes.map do |attribute_hash|
-            attribute = attribute_hash[:attribute]
+          included_columns = chart_attributes.map do |chart_attribute|
             {
-              name: attribute['display_name'],
-              unit: attribute.unit,
-              tooltip: attribute[:tooltip_text]
+              name: chart_attribute.display_name,
+              unit: chart_attribute.unit,
+              tooltip: chart_attribute.tooltip_text
             }
           end
           {
-            name: name,
+            name: chart.title,
             included_columns: included_columns,
             rows: [
               {name: 'Score', have_unit: true, values: values},
