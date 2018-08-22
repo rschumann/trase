@@ -20,10 +20,11 @@ namespace :charts do
 
   def initialise_place_profiles(context)
     context.profiles.where(name: 'place').each do |profile|
-      create_environmental_indicators(profile)
-      create_socioeconomic_indicators(profile)
-      create_agricultural_indicators(profile)
-      create_territorial_governance(profile)
+      chart = create_sustainability_indicators(profile)
+      create_environmental_indicators(profile, chart)
+      create_socioeconomic_indicators(profile, chart)
+      create_agricultural_indicators(profile, chart)
+      create_territorial_governance(profile, chart)
       create_trajectory_deforestation(profile)
     end
   end
@@ -31,6 +32,7 @@ namespace :charts do
   def create_sustainability(profile)
     chart = find_or_create_chart(
       profile,
+      nil,
       :sustainability,
       position: 2,
       title: 'Deforestation risk associated with top sourcing regions'
@@ -56,6 +58,7 @@ namespace :charts do
   def create_companies_sourcing(profile)
     chart = find_or_create_chart(
       profile,
+      nil,
       :companies_sourcing,
       position: 3, title: 'Comparing companies'
     )
@@ -99,9 +102,21 @@ namespace :charts do
     create_chart_attributes_from_attributes_list(chart, attributes_list)
   end
 
-  def create_environmental_indicators(profile)
+  def create_sustainability_indicators(profile)
     chart = find_or_create_chart(
       profile,
+      nil,
+      :indicators,
+      position: 0, title: 'Sustainability indicators'
+    )
+    create_chart_attributes_from_attributes_list(chart, [])
+    chart
+  end
+
+  def create_environmental_indicators(profile, parent)
+    chart = find_or_create_chart(
+      profile,
+      parent,
       :environmental_indicators,
       position: 0, title: 'Environmental indicators'
     )
@@ -122,9 +137,10 @@ namespace :charts do
     create_chart_attributes_from_attributes_list(chart, attributes_list)
   end
 
-  def create_socioeconomic_indicators(profile)
+  def create_socioeconomic_indicators(profile, parent)
     chart = find_or_create_chart(
       profile,
+      parent,
       :socioeconomic_indicators,
       position: 0, title: 'Socio-economic indicators'
     )
@@ -140,9 +156,10 @@ namespace :charts do
     create_chart_attributes_from_attributes_list(chart, attributes_list)
   end
 
-  def create_agricultural_indicators(profile)
+  def create_agricultural_indicators(profile, parent)
     chart = find_or_create_chart(
       profile,
+      parent,
       :agricultural_indicators,
       position: 0, title: 'Agricultural indicators'
     )
@@ -154,9 +171,10 @@ namespace :charts do
     create_chart_attributes_from_attributes_list(chart, attributes_list)
   end
 
-  def create_territorial_governance(profile)
+  def create_territorial_governance(profile, parent)
     chart = find_or_create_chart(
       profile,
+      parent,
       :territorial_governance,
       position: 0, title: 'Territorial governance'
     )
@@ -172,6 +190,7 @@ namespace :charts do
   def create_trajectory_deforestation(profile)
     chart = find_or_create_chart(
       profile,
+      nil,
       :trajectory_deforestation,
       position: 1, title: 'Deforestation trajectory of %{place}'
     )
@@ -205,14 +224,16 @@ namespace :charts do
     create_chart_attributes_from_attributes_list(chart, attributes_list)
   end
 
-  def find_or_create_chart(profile, identifier, options)
+  def find_or_create_chart(profile, parent, identifier, options)
     chart = Api::V3::Chart.where(
       profile_id: profile.id,
+      parent_id: parent&.id,
       identifier: identifier
     ).first
     return chart if chart.present?
     Api::V3::Chart.create(
       profile: profile,
+      parent: parent,
       identifier: identifier,
       position: options[:position],
       title: options[:title]

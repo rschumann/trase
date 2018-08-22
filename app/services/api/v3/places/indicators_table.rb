@@ -30,7 +30,7 @@ module Api
             :agricultural_indicators,
             :territorial_governance
           ].map do |identifier|
-            chart = initialize_chart(:place, identifier)
+            chart = initialize_chart(:place, :indicators, identifier)
             indicators_group(chart)
           end
         end

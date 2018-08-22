@@ -13,7 +13,7 @@ module Api
           @year = year
           @volume_attribute = Dictionary::Quant.instance.get('Volume')
           raise 'Quant Volume not found' unless @volume_attribute.present?
-          chart = initialize_chart(:actor, :sustainability)
+          chart = initialize_chart(:actor, nil, :sustainability)
           @chart_attributes, @attributes = initialize_attributes(chart)
           initialize_flow_stats_for_node
         end
