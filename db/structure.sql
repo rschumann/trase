@@ -2998,6 +2998,14 @@ ALTER TABLE ONLY public.charts
 
 
 --
+-- Name: charts charts_profile_id_parent_id_identifier_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.charts
+    ADD CONSTRAINT charts_profile_id_parent_id_identifier_key UNIQUE (profile_id, parent_id, identifier);
+
+
+--
 -- Name: charts charts_profile_id_parent_id_position_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4817,6 +4825,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180522102950'),
 ('20180522135640'),
 ('20180817125528'),
-('20180817130807');
+('20180817130807'),
+('20180822093443');
 
 
