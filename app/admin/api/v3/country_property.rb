@@ -1,5 +1,5 @@
 ActiveAdmin.register Api::V3::CountryProperty, as: 'CountryProperty' do
-  menu parent: 'General Settings', priority: 1
+  menu parent: 'General', priority: 1
 
   permit_params :country_id, :latitude, :longitude, :zoom
 
