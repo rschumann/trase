@@ -11,7 +11,9 @@
     "webpack:prod": "NODE_ENV='production' webpack --config config/webpack.config.prod.js",
     "eslint": "eslint -c .eslintrc.json --ext .jsx,.js scripts/**/* --fix",
     "prettier": "prettier --config .prettierrc --ignore-path .prettierignore --write 'scripts/**/*'",
-    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "styleguide:dev": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "husky": {
     "hooks": {
@@ -79,6 +81,7 @@
     "postcss-loader": "2.1.6",
     "prettier": "1.13.7",
     "puppeteer": "^1.6.2",
+    "react-styleguidist": "^8.0.2",
     "redux-logger": "3.0.6",
     "sass-lint": "1.12.1",
     "sass-loader": "7.0.3",
