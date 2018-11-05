@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SummaryWidget from 'react-components/profile-node/profile-node-widgets/summary-widget.component';
-import SustainabilityTableWidget from 'react-components/profile-node/profile-node-widgets/sustainability-table-widget.component';
-import DeforestationWidget from 'react-components/profile-node/profile-node-widgets/deforestation-widget.component';
-import TopConsumersWidget from 'react-components/profile-node/profile-node-widgets/top-consumers-widget.component';
-import ImportingCompaniesWidget from 'react-components/profile-node/profile-node-widgets/importing-companies-widget.component';
-import TopDestinationsWidget from 'react-components/profile-node/profile-node-widgets/top-destinations-widget.component';
+import SummaryWidget from 'react-components/profile-node/profile-node-widgets/summary/summary-widget.component';
+import SustainabilityTableWidget from 'react-components/profile-node/profile-node-widgets/sustainability-table/sustainability-table-widget.component';
+import DeforestationWidget from 'react-components/profile-node/profile-node-widgets/deforestation/deforestation-widget.component';
+import TopConsumersWidget from 'react-components/profile-node/profile-node-widgets/top-consumers/top-consumers-widget.component';
+import ImportingCompaniesWidget from 'react-components/profile-node/profile-node-widgets/importing-companies/importing-companies-widget.component';
+import TopDestinationsWidget from 'react-components/profile-node/profile-node-widgets/top-destinations/top-destinations-widget.component';
 import { smoothScroll } from 'utils/smoothScroll';
 
 class ProfileNode extends React.PureComponent {

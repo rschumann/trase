@@ -19,7 +19,7 @@ module.exports = merge(webpackBaseConfig, {
     proxy: [
       {
         context: ['/content', '/system'],
-        target: `http:${process.env.API_V3_URL}`
+        target: `${process.env.API_V3_URL}`
       }
     ]
   },
