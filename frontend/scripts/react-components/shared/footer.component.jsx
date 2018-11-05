@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
-import RFRLink from 'redux-first-router-link';
+import Link from 'redux-first-router-link';
 
 const sections = [
   {
@@ -118,10 +117,7 @@ const sections = [
   }
 ];
 
-const Link = ({ useNative, ...props }) => React.createElement(useNative ? 'a' : RFRLink, props);
-Link.propTypes = { useNative: PropTypes.bool };
-
-const Footer = ({ useNative = false }) => (
+const Footer = () => (
   <div className="c-footer">
     <div className="contain-logos-footer row">
       {sections.map(({ title, logos, text }) => (
@@ -155,7 +151,6 @@ const Footer = ({ useNative = false }) => (
       <ul className="links-list">
         <li className="link-item">
           <Link
-            useNative={useNative}
             className="title -mono-font"
             to={{ type: 'about', payload: { section: 'terms-of-use' } }}
           >
@@ -172,9 +167,5 @@ const Footer = ({ useNative = false }) => (
     </div>
   </div>
 );
-
-Footer.propTypes = {
-  useNative: PropTypes.bool
-};
 
 export default Footer;

@@ -1,5 +1,5 @@
 import { all, fork } from 'redux-saga/effects';
-import dashboardElement from 'react-components/dashboard-element/dashboard-element.saga';
+import dashboardElement from 'scripts/react-components/dashboard-element/dashboard-element.saga';
 
 const sagas = [dashboardElement];
 
