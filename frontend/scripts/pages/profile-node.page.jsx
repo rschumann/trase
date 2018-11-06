@@ -42,4 +42,5 @@ export const mount = (root, store) => {
 export const unmount = () => {
   unmountComponentAtNode(document.getElementById('nav'));
   unmountComponentAtNode(document.getElementById('page-react-root'));
+  unmountComponentAtNode(document.getElementById('footer'));
 };

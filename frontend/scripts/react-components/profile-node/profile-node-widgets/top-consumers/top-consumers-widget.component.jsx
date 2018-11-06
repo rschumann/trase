@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Widget from 'react-components/widgets/widget.component';
 import MiniSankey from 'react-components/profiles/mini-sankey.component';
 import { withTranslation } from 'react-components/nav/locale-selector/with-translation.hoc';
-import {
-  GET_NODE_SUMMARY_URL,
-  GET_PLACE_TOP_CONSUMER_ACTORS,
-  GET_PLACE_TOP_CONSUMER_COUNTRIES
-} from 'utils/getURLFromParams';
 import capitalize from 'lodash/capitalize';
 import ShrinkingSpinner from 'react-components/shared/shrinking-spinner.component';
 
@@ -38,65 +32,59 @@ class TopConsumersWidget extends React.PureComponent {
   };
 
   render() {
-    const { year, nodeId, contextId, type, onLinkClick, testId } = this.props;
-    const params = { node_id: nodeId, context_id: contextId, year };
-    const mainQuery =
-      type === 'actor' ? GET_PLACE_TOP_CONSUMER_ACTORS : GET_PLACE_TOP_CONSUMER_COUNTRIES;
+    const {
+      year,
+      contextId,
+      type,
+      onLinkClick,
+      testId,
+      loading,
+      error,
+      topConsumers,
+      nodeSummary
+    } = this.props;
+    if (loading) {
+      return (
+        <div className="spinner-section" data-test="loading-section">
+          <ShrinkingSpinner className="-large" />
+        </div>
+      );
+    }
+
+    if (error) {
+      // TODO: display a proper error message to the user
+      console.error('Error loading top consumer data for profile page', error);
+      return (
+        <div className="spinner-section" data-test="loading-section">
+          <ShrinkingSpinner className="-large" />
+        </div>
+      );
+    }
+
+    if (topConsumers && topConsumers.targetNodes && topConsumers.targetNodes.length === 0) {
+      return null;
+    }
+
+    const { municipalityName } = nodeSummary;
     return (
-      <Widget
-        query={[mainQuery, GET_NODE_SUMMARY_URL]}
-        params={[{ ...params, year }, { ...params, profile_type: 'place' }]}
-      >
-        {({ data, loading, error }) => {
-          if (loading) {
-            return (
-              <div className="spinner-section" data-test="loading-section">
-                <ShrinkingSpinner className="-large" />
-              </div>
-            );
-          }
-
-          if (error) {
-            // TODO: display a proper error message to the user
-            console.error('Error loading top consumer data for profile page', error);
-            return (
-              <div className="spinner-section" data-test="loading-section">
-                <ShrinkingSpinner className="-large" />
-              </div>
-            );
-          }
-
-          if (
-            data[mainQuery] &&
-            data[mainQuery].targetNodes &&
-            data[mainQuery].targetNodes.length === 0
-          ) {
-            return null;
-          }
-
-          const { municipalityName } = data[GET_NODE_SUMMARY_URL];
-          return (
-            <section className="mini-sankey-container page-break-inside-avoid" data-test={testId}>
-              <div className="row">
-                <div className="small-12 columns">
-                  <h3 className="title -small" data-test={`${testId}-title`}>
-                    {this.getTitle(municipalityName)}
-                  </h3>
-                  <TranslatedMiniSankey
-                    year={year}
-                    data={data[mainQuery]}
-                    contextId={contextId}
-                    testId={`${testId}-mini-sankey`}
-                    onLinkClick={this.handleLinkClick}
-                    targetLink={onLinkClick && 'profileNode'}
-                    targetPayload={onLinkClick && { profileType: type }}
-                  />
-                </div>
-              </div>
-            </section>
-          );
-        }}
-      </Widget>
+      <section className="mini-sankey-container page-break-inside-avoid" data-test={testId}>
+        <div className="row">
+          <div className="small-12 columns">
+            <h3 className="title -small" data-test={`${testId}-title`}>
+              {this.getTitle(municipalityName)}
+            </h3>
+            <TranslatedMiniSankey
+              year={year}
+              data={topConsumers}
+              contextId={contextId}
+              testId={`${testId}-mini-sankey`}
+              onLinkClick={this.handleLinkClick}
+              targetLink={onLinkClick && 'profileNode'}
+              targetPayload={onLinkClick && { profileType: type }}
+            />
+          </div>
+        </div>
+      </section>
     );
   }
 }
@@ -107,8 +95,16 @@ TopConsumersWidget.propTypes = {
   commodityName: PropTypes.string,
   year: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
-  nodeId: PropTypes.number.isRequired,
-  contextId: PropTypes.number.isRequired
+  contextId: PropTypes.number.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.any,
+  topConsumers: PropTypes.object,
+  nodeSummary: PropTypes.object
+};
+
+TopConsumersWidget.defaultProps = {
+  topConsumers: {},
+  nodeSummary: {}
 };
 
 export default TopConsumersWidget;
