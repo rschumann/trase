@@ -1,0 +1,4 @@
+https://staging.trase.earth/api/v3/contexts/1/download.csv?filters[][name]=AGROSATELITE_SOY_DEFOR_&filters[][name]=LAND_USE&filters[][name]=POTENTIAL_SOY_DEFORESTATION_V2&filters[][name]=Volume&pivot=1&separator=comma
+https://staging.trase.earth/api/v3/contexts/7/download.csv?c_ids[]=6202&pivot=1&separator=comma
+https://staging.trase.earth/api/v3/contexts/3/download.csv?pivot=1
+https://staging.trase.earth/api/v3/contexts/1/download.csv?pivot=1
